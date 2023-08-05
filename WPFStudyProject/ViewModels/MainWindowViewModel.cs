@@ -1,10 +1,14 @@
-﻿using WPFStudyProject.ViewModels.Base;
+﻿using System.Windows;
+using System.Windows.Input;
+using WPFStudyProject.Infrastructure.Commands;
+using WPFStudyProject.ViewModels.Base;
+
 
 namespace WPFStudyProject.ViewModels
 {
     internal class MainWindowViewModel : ViewModelBase
     {
-        #region
+        #region Заголовок окна
         private string _title = "Statistics analysis";
 
         public string Title
@@ -22,7 +26,7 @@ namespace WPFStudyProject.ViewModels
         }
         #endregion
 
-        #region
+        #region Status : string - статус программы
         private string _status = "Ready !";
 
         public string Status
@@ -39,6 +43,30 @@ namespace WPFStudyProject.ViewModels
             set => Set(ref _status, value);
         }
         #endregion
+
+
+        #region Commands
+
+        #region CloseApplicationCommand
+        public ICommand CloseApplicationCommand { get; }
+
+        private bool CanCloseApplicationCommandExecute(object? parameter) => true;
+
+        private void OnCloseApplicationCommandExecute(object parameter)
+        {
+            Application.Current.Shutdown();
+        }
+        #endregion
+
+        #endregion
+
+        public MainWindowViewModel()
+        {
+            #region Commads
+            CloseApplicationCommand = new LambdaCommand(OnCloseApplicationCommandExecute, CanCloseApplicationCommandExecute);
+            #endregion
+        }
+
 
     }
 }
