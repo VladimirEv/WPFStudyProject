@@ -4,11 +4,19 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vm="clr-namespace:WPFStudyProject.ViewModels"
+        xmlns:fa="http://schemas.fontawesome.com/icons/"
+        xmlns:cmd="clr-namespace:WPFStudyProject.Infrastructure.Commands"
         xmlns:local="clr-namespace:WPFStudyProject.Views.Windows"       
         Title="{Binding Title}" Height="450" Width="800">
+    <Window.InputBindings>
+        <KeyBinding Modifiers="Ctrl" Key="Q" Command="{Binding CloseApplicationCommand}"/>
+    </Window.InputBindings>
     <Window.DataContext>
         <vm:MainWindowViewModel/>
     </Window.DataContext>
+    <Window.Resources>
+        <cmd:CloseApplicationCommand x:Key="CloseApplicationCommand"/>
+    </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="49*"/>
@@ -17,7 +25,12 @@
         <DockPanel Grid.ColumnSpan="2">
             <Menu DockPanel.Dock="Top">
                 <MenuItem Header="File">
-                    <MenuItem Header="Exit" Command="{Binding CloseApplicationCommand}"/>
+                    <!--<MenuItem Header="Exit" Command="{Binding CloseApplicationCommand}"/>-->
+                    <MenuItem Header="Exit" Command="{StaticResource CloseApplicationCommand}"/>
+                    <!--<MenuItem Header="Exit" />
+                    <MenuItem.Command>
+                        <cmd:CloseApplicationCommand/>
+                    </MenuItem.Command>-->
                 </MenuItem>
                 <MenuItem Header="Help">
                     <MenuItem Header="About program"/>
@@ -33,7 +46,14 @@
                 <StatusBar></StatusBar>
             </StatusBar>
             <TabControl>
-                <TabItem Header="Tab1">
+                <TabItem>
+                    <TabItem.Header>
+                        <StackPanel Orientation="Horizontal">
+                            <!--<Image Source=""></Image>-->
+                            <fa:ImageAwesome Icon="Regular_File"  Height="15" Margin="0,0,5,0" Foreground="Red"/>
+                            <TextBlock Text="Tab1"/>
+                        </StackPanel>
+                    </TabItem.Header>
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="63*"/>
@@ -49,7 +69,12 @@
                                    StrokeThickness="3"
                                    RadiusX="5" RadiusY="7"/>
                         <Ellipse Grid.Column="1" Grid.Row="0"
-                                 Fill="Red" Stroke="Blue" StrokeThickness="3"/>
+                                 Fill="Red" Stroke="Blue" StrokeThickness="3">
+                            <Ellipse.InputBindings>
+                                <MouseBinding Command="{Binding CloseApplicationCommand}"
+                                              MouseAction="LeftDoubleClick"/>
+                            </Ellipse.InputBindings>
+                        </Ellipse>
                         <GridSplitter Grid.Column="0" Grid.Row="0" Grid.RowSpan="2"
                                       HorizontalAlignment="Right"
                                       Width="4"/>
