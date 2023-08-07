@@ -34,6 +34,8 @@ static DateTime[] GetDates()=> GetDataLines()
     .Select(s => DateTime.Parse(s, CultureInfo.InvariantCulture))
     .ToArray();
 
+
+
 //var client  = new HttpClient();
 //var response = client.GetAsync(data_url).Result;
 //var csr_str = response.Content.ReadAsStringAsync().Result;
