@@ -1,6 +1,7 @@
 ﻿
 // See https://aka.ms/new-console-template for more information
 
+using System.Diagnostics.Metrics;
 using System.Globalization;
 using System.Runtime.CompilerServices;
 
@@ -34,7 +35,29 @@ static DateTime[] GetDates()=> GetDataLines()
     .Select(s => DateTime.Parse(s, CultureInfo.InvariantCulture))
     .ToArray();
 
+static IEnumerable<(string Country, string Province, int[] Counts)> GetData()
+{
+    var lines = GetDataLines()
+        .Skip(1)
+        .Select(line => line.Split(','));
 
+    foreach (var row in lines)
+    {
+        
+        var province = row[0].Trim();
+        var country_name = row[1].Trim(' ', '"');
+ 
+        var counts = row.Skip(4).Select(s =>
+        {
+            int.TryParse(s, out int count);
+            return count;
+        }).ToArray();
+
+
+
+yield return (country_name, province, counts);
+    }
+}
 
 //var client  = new HttpClient();
 //var response = client.GetAsync(data_url).Result;
@@ -47,8 +70,11 @@ static DateTime[] GetDates()=> GetDataLines()
 //    Console.ReadLine();
 //}
 
-var dates = GetDates();
+//var dates = GetDates();
+//Console.WriteLine(string.Join("\r\n", dates));
 
-Console.WriteLine(string.Join("\r\n", dates));
+var russia_data = GetData().First(v => v.Country.Equals("Russia", StringComparison.OrdinalIgnoreCase));
+
+Console.WriteLine(string.Join("\r\n", GetDates().Zip(russia_data.Counts, (date, count) => $"{date:dd:MM}-{count}")));
 
 Console.ReadLine();
