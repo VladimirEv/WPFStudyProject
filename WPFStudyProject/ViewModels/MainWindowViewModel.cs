@@ -15,6 +15,16 @@ namespace WPFStudyProject.ViewModels
 {
     internal class MainWindowViewModel : ViewModelBase
     {
+        #region SelectedPageIndex : Int - selected tab number
+        private int _selectedPageIndex;
+
+        public int SelectedPageIndex
+        {
+            get => _selectedPageIndex;
+            set => Set(ref _selectedPageIndex, value);
+        }
+        #endregion
+
         #region TestDataPoints : IEnumerable<Test> - DESCRIPTION
 
         private IEnumerable<Models.DataPoint> _testDataPoints;
@@ -73,12 +83,23 @@ namespace WPFStudyProject.ViewModels
         }
         #endregion
 
+        public ICommand ChangeTabIndexCommand { get; }
+
+        private bool CanChangeTabIndexCommandExecute(object p) => _selectedPageIndex >= 0;
+
+        private void OnChangeTabIndexCommandExecute(object p)
+        {
+            if (p is null) return;
+            SelectedPageIndex += Convert.ToInt32(p);
+        }
+
         #endregion
 
         public MainWindowViewModel()
         {
             #region Commads
             CloseApplicationCommand = new LambdaCommand(OnCloseApplicationCommandExecute, CanCloseApplicationCommandExecute);
+            ChangeTabIndexCommand = new LambdaCommand(OnChangeTabIndexCommandExecute, CanChangeTabIndexCommandExecute);
             #endregion
 
             var data_points = new List<Models.DataPoint>((int)(360/0.1));

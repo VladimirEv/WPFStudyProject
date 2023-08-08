@@ -35,6 +35,17 @@
                 <MenuItem Header="Help">
                     <MenuItem Header="About program"/>
                 </MenuItem>
+                <MenuItem Command="{Binding ChangeTabIndexCommand}" CommandParameter="-1">
+                    <MenuItem.Header>
+                        <fa:ImageAwesome Height="12" Icon="Regular_ArrowAltCircleLeft"/>
+                    </MenuItem.Header>
+                </MenuItem>
+                <MenuItem Command="{Binding ChangeTabIndexCommand}" CommandParameter="+1">
+                    <MenuItem.Header>
+                        <fa:ImageAwesome Height="12" Icon="Regular_ArrowAltCircleRight"/>
+                    </MenuItem.Header>
+                </MenuItem>
+                <MenuItem Header="{Binding SelectedPageIndex}" IsEnabled="False"/>
             </Menu>
             <StatusBar DockPanel.Dock="Bottom">
                 <StatusBarItem MinWidth="150" MaxWidth="350">
@@ -45,8 +56,8 @@
                 </StatusBarItem>
                 <StatusBar></StatusBar>
             </StatusBar>
-            <TabControl>
-                <TabItem Visibility="Collapsed">
+            <TabControl SelectedIndex="{Binding SelectedPageIndex}">
+                <TabItem>
                     <TabItem.Header>
                         <StackPanel Orientation="Horizontal">
                             <!--<Image Source=""></Image>-->
@@ -81,8 +92,7 @@
                     </Grid>
                 </TabItem>
                 <TabItem Header="Grafic">
-                <oxy:Plot>
-                    
+                    <oxy:Plot>
                         <oxy:Plot.Axes>
                             <oxy:LinearAxis Position="Left"/>
                             <oxy:LinearAxis Position="Bottom"/>
@@ -93,6 +103,9 @@
                                     DataFieldX="XValue" DataFieldY="YValue"/>
                 </oxy:Plot>
                 </TabItem>
+                <TabItem Header="Tab3"></TabItem>
+                <TabItem Header="Tab4"></TabItem>
+                <TabItem Header="Tab5"></TabItem>
             </TabControl>
         </DockPanel>
     </Grid>
