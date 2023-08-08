@@ -1,6 +1,6 @@
 ﻿namespace WPFStudyProject.Models
 {
-    internal struct DataPoint
+    public struct DataPoint
     {
         public double XValue { get; set; }
 
